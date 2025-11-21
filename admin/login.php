@@ -10,20 +10,27 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
 <head>
 <meta charset="UTF-8">
 <title>Admin Login</title>
-<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
 <div class="login-container">
-    <h2>Admin Login</h2>
+    <h2 class="text-center">Admin Login</h2>
 
     <form id="loginForm">
         <input type="text" id="username" placeholder="Username" required>
         <input type="password" id="password" placeholder="Password" required>
 
-        <button type="submit">Login</button>
-        <p id="msg" class="msg"></p>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        
+        <p id="msg" class="text-danger text-center mt-20"></p>
     </form>
+    
+    <div class="text-center mt-20">
+        <a href="../index.php" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">
+            ← Back to Home
+        </a>
+    </div>
 </div>
 
 <script>
@@ -31,18 +38,31 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
+    let msg = document.getElementById("msg");
+    
+    // Reset thông báo
+    msg.innerText = "Logging in...";
+    msg.className = "text-center mt-20"; // Reset màu tạm thời
+    msg.style.color = "var(--text-muted)";
 
-    let res = await fetch("../api/auth/admin_login.php", {
-        method: "POST",
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: `username=${username}&password=${password}`
-    });
-    let data = await res.json();
+    try {
+        let res = await fetch("../api/auth/admin_login.php", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        });
+        let data = await res.json();
 
-    if (data.status === "success") {
-        window.location.href = "admin_dashboard.php";
-    } else {
-        document.getElementById("msg").innerText = data.message;
+        if (data.status === "success") {
+            window.location.href = "admin_dashboard.php";
+        } else {
+            msg.innerText = data.message;
+            msg.className = "text-danger text-center mt-20"; // Thêm màu đỏ khi lỗi
+            msg.removeAttribute("style");
+        }
+    } catch (err) {
+        msg.innerText = "Connection error";
+        msg.className = "text-danger text-center mt-20";
     }
 });
 </script>

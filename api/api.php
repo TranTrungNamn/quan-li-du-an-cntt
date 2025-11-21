@@ -24,7 +24,7 @@ if (!$scraperDir) {
 }
 
 // 🔥 Python.exe của bạn (Python Launcher)
-$python = "C:\\Users\\ASUS\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe";
+$python = "python";
 
 $cmd = null;
 
@@ -35,7 +35,8 @@ elseif (strpos($domain, "shopee") !== false) {
     $cmd = "\"$python\" \"$scraperDir/scraper_shopee.py\" $escapedUrl";
 }
 elseif (strpos($domain, "sieuthiyte") !== false) {
-    $cmd = "\"$python\" \"$scraperDir/scraper_beauti.py\" $escapedUrl";
+    // Dùng scraper.py (Selenium) thay vì scraper_beauti.py (Requests)
+    $cmd = "\"$python\" \"$scraperDir/scraper.py\" $escapedUrl";
 }
 else {
     // fallback beauti

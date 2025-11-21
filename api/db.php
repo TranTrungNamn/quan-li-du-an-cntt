@@ -1,9 +1,9 @@
 <?php
-$host = "127.0.0.1";
+$host = "localhost";
 $user = "root";
 $pass = "";
-$db   = "thuthapdltm";
-$port = 3307;
+$db   = "web_scraping_002";
+$port = 3306;
 
 $conn = new mysqli($host, $user, $pass, $db, $port);
 $conn->set_charset("utf8mb4");

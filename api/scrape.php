@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 require_once "db.php";
-require_once __DIR__ . '/../scraper/sieuthiyte_scraper.php';
 
 // 1. Get URL
 if (!isset($_GET['url']) || empty($_GET['url'])) {
@@ -12,14 +11,34 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
 $url = trim($_GET['url']);
 $domain = parse_url($url, PHP_URL_HOST);
 
-if (!str_contains($url, "sieuthiyte.com.vn") && !str_contains($url, "phana.com.vn")) {
-    echo json_encode(["error" => "Only sieuthiyte.com.vn & phana.com.vn are supported"]);
+// 1.1 Check supported domains
+if (
+    !str_contains($url, "sieuthiyte.com.vn") &&
+    !str_contains($url, "phana.com.vn") &&
+    !str_contains($url, "ytesonhuong.com")
+) {
+    echo json_encode(["error" => "Only sieuthiyte, phana, ytesonhuong are supported"]);
     exit;
 }
 
-// 2. Get platform_id
-$platform_code = "sieuthiyte";
+// 2. Platform detect
+if (str_contains($url, "sieuthiyte.com.vn")) {
+    $platform_code = "sieuthiyte";
+    require_once __DIR__ . '/../scraper/sieuthiyte_scraper.php';
+    $data = scrape_sieuthiyte_list($url);
+}
+elseif (str_contains($url, "phana.com.vn")) {
+    $platform_code = "phana";
+    require_once __DIR__ . '/../scraper/phana_scraper.php';
+    $data = scrape_phana_page($url);
+}
+elseif (str_contains($url, "ytesonhuong.com")) {
+    $platform_code = "ytesonhuong";
+    require_once __DIR__ . '/../scraper/ytesonhuong_scraper.php';
+    $data = scrape_ytesonhuong_list($url);
+}
 
+// 3. Get platform_id
 $stmt = $conn->prepare("SELECT id FROM platforms WHERE code = ?");
 $stmt->bind_param("s", $platform_code);
 $stmt->execute();
@@ -37,12 +56,12 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-// 3. Normalize key
+// 4. Normalize key
 function normalize_key($str) {
     return preg_replace('/[^a-z0-9]+/', '-', strtolower($str));
 }
 
-// 4. Save products
+// 5. Save products
 $sql = "
 INSERT INTO products
 (platform_id, title, normalized_key, product_url, image_url, shop_name,
@@ -60,22 +79,19 @@ ON DUPLICATE KEY UPDATE
 ";
 
 $stmt_product = $conn->prepare($sql);
-if (!$stmt_product) {
-    echo json_encode(["error" => $conn->error]);
-    exit;
-}
 
 foreach ($data as $item) {
     $title  = $item['title'] ?? '';
     $norm   = normalize_key($title);
+
     $url2   = $item['link'] ?? '';
     $img    = $item['image'] ?? '';
     $shop   = $item['shop'] ?? null;
 
-    $p_new  = $item['price_new'] ?? 0;
-    $p_old  = $item['price_old'] ?? 0;
-    $sold   = $item['sold'] ?? 0;
-    $rate   = $item['rating'] ?? 0;
+    $p_new  = $item['price_current'] ?? 0;
+    $p_old  = $item['price_original'] ?? 0;
+    $sold   = $item['sold_quantity'] ?? 0;
+    $rate   = $item['rating_avg'] ?? 0;
     $count  = $item['rating_count'] ?? 0;
 
     $stmt_product->bind_param(
@@ -92,6 +108,7 @@ foreach ($data as $item) {
         $rate,
         $count
     );
+
     $stmt_product->execute();
 }
 

@@ -2,12 +2,13 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once "db.php";
 
-// Scrapers
+// Load scrapers
 require_once __DIR__ . '/../scraper/sieuthiyte_scraper.php';
 require_once __DIR__ . '/../scraper/phana_scraper.php';
+require_once __DIR__ . '/../scraper/ytesonhuong_scraper.php';
 
 // ====================================================================
-// 1. Nhận URL
+// 1. GET URL
 // ====================================================================
 if (!isset($_GET['url']) || empty($_GET['url'])) {
     echo json_encode(["error" => "Missing URL"]);
@@ -18,29 +19,39 @@ $url = trim($_GET['url']);
 $domain = parse_url($url, PHP_URL_HOST);
 
 // ====================================================================
-// 2. Chọn scraper theo domain
+// 2. DETECT SCRAPER BY DOMAIN
 // ====================================================================
 $data = null;
-$platform_code = "other";
+$platform_code = null;
 
 try {
 
+    // SieuThiYTe
     if (strpos($domain, "sieuthiyte") !== false) {
         $data = scrape_sieuthiyte_list($url);
         $platform_code = "sieuthiyte";
     }
 
+    // Phana
     elseif (strpos($domain, "phana.com.vn") !== false) {
         $data = scrape_phana_list($url);
         $platform_code = "phana";
     }
 
+    // Y Te Son Huong
+    elseif (strpos($domain, "ytesonhuong.com") !== false) {
+        $data = scrape_ytesonhuong_list($url);
+        $platform_code = "ytesonhuong";
+    }
+
+    // Unsupported
     else {
         echo json_encode([
             "error" => "Website not supported",
             "supported" => [
                 "sieuthiyte.com.vn",
-                "phana.com.vn"
+                "phana.com.vn",
+                "ytesonhuong.com"
             ]
         ]);
         exit;
@@ -53,7 +64,7 @@ try {
 
 
 // ====================================================================
-// 3. Lấy hoặc tạo platform trong DB
+// 3. GET OR CREATE PLATFORM ID
 // ====================================================================
 $stmt = $conn->prepare("SELECT id FROM platforms WHERE code = ?");
 $stmt->bind_param("s", $platform_code);
@@ -68,13 +79,14 @@ if ($stmt->num_rows > 0) {
     $ins->bind_param("ss", $platform_code, $domain);
     $ins->execute();
     $platform_id = $ins->insert_id;
+    $ins->close();
 }
 
 $stmt->close();
 
 
 // ====================================================================
-// 4. Chuẩn hóa key
+// 4. NORMALIZE KEY
 // ====================================================================
 function normalize_key($str) {
     return preg_replace('/[^a-z0-9]+/', '-', strtolower($str));
@@ -82,7 +94,7 @@ function normalize_key($str) {
 
 
 // ====================================================================
-// 5. SQL insert/update
+// 5. SQL INSERT / UPDATE
 // ====================================================================
 $sql = "
 INSERT INTO products
@@ -104,7 +116,7 @@ $stmt_product = $conn->prepare($sql);
 
 
 // ====================================================================
-// 6. Lưu dữ liệu vào DB
+// 6. INSERT DATA TO DATABASE
 // ====================================================================
 foreach ($data as $item) {
 
@@ -112,13 +124,14 @@ foreach ($data as $item) {
     $norm   = normalize_key($title);
     $url2   = $item['link'] ?? '';
     $img    = $item['image'] ?? '';
-    $shop   = null;
+    $shop   = $item['shop'] ?? null;
 
-    $p_new  = $item['price_new'] ?? null;
-    $p_old  = $item['price_old'] ?? null;
-    $sold   = $item['sold'] ?? null;
-    $rate   = $item['rating'] ?? null;
-    $count  = $item['rating_count'] ?? null;
+    // Mapping đồng bộ tất cả scraper
+    $p_new  = $item['price_current']  ?? $item['price_new']  ?? 0;
+    $p_old  = $item['price_original'] ?? $item['price_old'] ?? 0;
+    $sold   = $item['sold_quantity']  ?? $item['sold']      ?? 0;
+    $rate   = $item['rating_avg']     ?? $item['rating']    ?? 0;
+    $count  = $item['rating_count']   ?? 0;
 
     $stmt_product->bind_param(
         "isssssiiiii",
@@ -140,7 +153,7 @@ foreach ($data as $item) {
 
 
 // ====================================================================
-// 7. Trả dữ liệu lại cho frontend
+// 7. RETURN JSON RESPONSE
 // ====================================================================
 echo json_encode($data, JSON_UNESCAPED_UNICODE);
 

@@ -58,8 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoading(true);
 
         try {
-
-            const apiURL = `http://localhost/duanqttt/api/api.php?url=${encodeURIComponent(url)}`;
+            // Sử dụng đường dẫn tương đối để tránh lỗi sai tên thư mục
+            const apiURL = `api/api.php?url=${encodeURIComponent(url)}`;
+            // const apiURL = `http://localhost/duanqttt/api/api.php?url=${encodeURIComponent(url)}`;
 
             const response = await fetch(apiURL);
 

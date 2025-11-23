@@ -152,16 +152,15 @@ if ($result) {
                              class="product-image">
                     </div>
 
-                    <div class="product-info">
-                        <h3 class="product-title"><?= htmlspecialchars($row['title']) ?></h3>
+                    <div class="price-box">
+                        <span class="current-price">
+                            <?= ($row['price_current'] > 0) ? number_format($row['price_current']) . '₫' : 'Liên hệ' ?>
+                        </span>
 
-                        <div class="price-box">
-                            <span class="current-price"><?= number_format($row['price_current']) ?>₫</span>
-
-                            <?php if ($row['price_original']): ?>
-                                <span class="old-price"><?= number_format($row['price_original']) ?>₫</span>
-                            <?php endif; ?>
-                        </div>
+                        <?php if ($row['price_original'] && $row['price_original'] > 0): ?>
+                            <span class="old-price"><?= number_format($row['price_original']) ?>₫</span>
+                        <?php endif; ?>
+                    </div>
 
                         <p class="small-text">
                             Platform: <?= htmlspecialchars($row['platform_name'] ?? "Unknown") ?>

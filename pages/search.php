@@ -90,7 +90,7 @@ $result = $conn->query($sql);
                 <div class="product-details">
                     <strong><?= $row['title'] ?></strong>
                     <span class="product-price">
-                        <?= number_format($row['price_current']) ?>đ
+                        <?= ($row['price_current'] > 0) ? number_format($row['price_current']) . 'đ' : 'Liên hệ' ?>
                     </span>
                     <small class="product-meta">Platform ID: <?= $row['platform_id'] ?></small><br>
                     <a href="<?= $row['product_url'] ?>" target="_blank" style="color:var(--link-color);">View on Site</a>

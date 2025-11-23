@@ -78,7 +78,7 @@ h2 { font-size:26px; margin-bottom:20px; }
 
             <a class="compare-btn" href="compare_view.php?id1=<?= $row['id'] ?>">
                 So sánh sản phẩm này
-            </a>
+            </a>`
         </div>
         <?php endwhile; ?>
 

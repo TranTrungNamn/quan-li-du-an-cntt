@@ -52,17 +52,17 @@ window.addEventListener("message", function(e) {
         <nav class="main-nav">
             <ul class="nav-links">
                 <?php if (isset($_SESSION['user_logged_in'])): ?>
-                    <li class="nav-item" style="cursor:default; color: var(--primary); font-weight: 600; padding: 8px 12px;">
+                    <li class="nav-item nav-user-greeting cursor-default">
                         Hi, <?= htmlspecialchars($_SESSION['username']) ?>!
                     </li>
                     <li class="nav-item active" data-tab="tab-scraper">Scraper</li>
                     <li class="nav-item" data-tab="tab-products">Products</li>
                     <li class="nav-item" data-tab="tab-compare">Compare</li>
-                    <li class="nav-item" onclick="window.location='auth/logout.php'" style="cursor:pointer;">Logout</li>
+                    <li class="nav-item cursor-pointer" onclick="window.location='auth/logout.php'">Logout</li>
                 <?php else: ?>
                     <li class="nav-item active" data-tab="tab-landing">Home</li>
-                    <li class="nav-item" onclick="window.location='auth/login.php'" style="cursor:pointer;">Login</li>
-                    <li class="nav-item" onclick="window.location='auth/signup.php'" style="cursor:pointer;">Sign Up</li>
+                    <li class="nav-item cursor-pointer" onclick="window.location='auth/login.php'">Login</li>
+                    <li class="nav-item cursor-pointer" onclick="window.location='auth/signup.php'">Sign Up</li>
                 <?php endif; ?>
             </ul>
         </nav>

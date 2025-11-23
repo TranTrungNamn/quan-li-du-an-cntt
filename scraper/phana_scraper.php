@@ -28,7 +28,7 @@ function scrape_phana_page(string $url): array
         if (!$titleNode) continue;
 
         $title = trim($titleNode->textContent);
-        $link  = absolute_url("https://phana.com.vn/", $titleNode->getAttribute("href"));
+        $link  = absolute_url("<https:clear></https:clear>//phana.com.vn/", $titleNode->getAttribute("href"));
 
         // -----------------------------
 // 2. IMAGE — FULL LAZYLOAD FIX

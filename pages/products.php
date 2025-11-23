@@ -83,7 +83,7 @@ if ($result) {
 <body>
 <main class="main-content">
 
-    <h1 class="hero-title" style="font-size: 24px;">Saved Products & Search</h1>
+    <h1 class="hero-title" style="font-size: 1.5rem;">Saved Products & Search</h1>
     <p class="hero-description">
         <span class="badge"><?= count($product_list) ?></span> products found.
     </p>
@@ -91,14 +91,16 @@ if ($result) {
     <!-- FORM SEARCH -->
     <form method="GET" class="search-form-group">
 
-        <!-- SEARCH -->
         <input type="text" name="q" placeholder="Search product title..."
                value="<?= htmlspecialchars($keyword) ?>" class="form-input">
 
-        <!-- PLATFORM -->
         <select name="platform">
             <option value="">All Platforms</option>
-            <?php while ($p = $platforms->fetch_assoc()): ?>
+            <?php 
+            // Reset pointer về đầu danh sách để dùng lại nếu cần (tùy code gốc)
+            $platforms->data_seek(0); 
+            while ($p = $platforms->fetch_assoc()): 
+            ?>
                 <option value="<?= $p['id'] ?>"
                     <?= $platform == $p['id'] ? "selected" : "" ?>>
                     <?= htmlspecialchars($p['name']) ?>
@@ -106,10 +108,12 @@ if ($result) {
             <?php endwhile; ?>
         </select>
 
-        <!-- CATEGORY -->
         <select name="category">
             <option value="">All Categories</option>
-            <?php while ($c = $categories->fetch_assoc()): ?>
+            <?php 
+            $categories->data_seek(0);
+            while ($c = $categories->fetch_assoc()): 
+            ?>
                 <option value="<?= $c['normalized_key'] ?>"
                     <?= $category == $c['normalized_key'] ? "selected" : "" ?>>
                     <?= ucwords(str_replace('-', ' ', $c['normalized_key'])) ?>
@@ -117,20 +121,21 @@ if ($result) {
             <?php endwhile; ?>
         </select>
 
-        <!-- SORT -->
         <select name="sort">
-            <option value="">Sort By...</option>
-            <option value="price_asc"  <?= $sort == "price_asc"  ? "selected" : "" ?>>Price ↑</option>
-            <option value="price_desc" <?= $sort == "price_desc" ? "selected" : "" ?>>Price ↓</option>
-            <option value="name_asc"   <?= $sort == "name_asc"   ? "selected" : "" ?>>Name A → Z</option>
-            <option value="name_desc"  <?= $sort == "name_desc"  ? "selected" : "" ?>>Name Z → A</option>
+            <option value="">⇅ Sort By...</option>
+            <option value="price_asc"  <?= $sort == "price_asc"  ? "selected" : "" ?>>Price: Low to High</option>
+            <option value="price_desc" <?= $sort == "price_desc" ? "selected" : "" ?>>Price: High to Low</option>
+            <option value="name_asc"   <?= $sort == "name_asc"   ? "selected" : "" ?>>Name: A → Z</option>
+            <option value="name_desc"  <?= $sort == "name_desc"  ? "selected" : "" ?>>Name: Z → A</option>
         </select>
 
-        <button type="submit" class="btn btn-primary">Filter / Search</button>
+        <button type="submit" class="btn btn-primary">
+            Filter
+        </button>
 
         <?php if ($keyword || $platform || $category || $sort): ?>
-            <button type="button" class="btn" onclick="window.location.href='products.php'">
-                Reset
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='products.php'">
+                ✕ Reset
             </button>
         <?php endif; ?>
     </form>

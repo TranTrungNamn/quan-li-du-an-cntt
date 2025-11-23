@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="product_url" value="<?= htmlspecialchars($product['product_url']) ?>">
 
             <button type="submit" class="btn btn-primary">Save Changes</button>
-            <a href="admin_dashboard.php" class="btn" style="margin-top:10px; background:#eee; color:#333;">Cancel</a>
+            <a href="admin_dashboard.php" class="btn form-cancel-btn">Cancel</a>
         </form>
     </div>
 </div>

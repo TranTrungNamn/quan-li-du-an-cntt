@@ -2,8 +2,8 @@
 $host   = "localhost"; 
 $user   = "root";
 $pass   = "";
-$dbname = "thuthapdltm";
-$port   = 3307;
+$dbname = "sql_nhom30_itimi";
+$port   = 3306;
 
 $conn = new mysqli($host, $user, $pass, $dbname, $port);
 

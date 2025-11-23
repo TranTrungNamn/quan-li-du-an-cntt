@@ -85,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
             displayResult(data);
 
             // ⭐ TỰ ĐỘNG BẬT TAB PRODUCTS + LOAD DATA MỚI ⭐
-            setTimeout(() => {
-                window.postMessage({ action: "refreshProducts" }, "*");
-            }, 300);
+            // setTimeout(() => {
+            //     window.postMessage({ action: "refreshProducts" }, "*");
+            // }, 300);
 
         } catch (err) {
             errorMessage.textContent = err.message;

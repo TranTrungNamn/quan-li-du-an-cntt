@@ -353,3 +353,69 @@ body.is-bright-bg .site-header {
     background: rgba(255, 255, 255, 0.7);
     border-bottom: 1px solid #e5e7eb;
 }
+
+/* =========================================
+   11. GLASSMORPHISM LOGIN & SIGNUP (Mới)
+   ========================================= */
+
+/* Chỉ áp dụng khi có hình nền (body.random-background) */
+body.random-background .login-container {
+    /* Nền kính trong suốt nhẹ */
+    background: rgba(255, 255, 255, 0.15); 
+    
+    /* Hiệu ứng mờ nền phía sau (Glass effect) */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* Viền kính phát sáng nhẹ */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* Đổ bóng sâu hơn để nổi bật trên nền */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    
+    /* Màu chữ ăn theo biến động (từ script.js) */
+    color: var(--dynamic-text-color, #ffffff);
+}
+
+/* Tiêu đề và đoạn văn bên trong form */
+body.random-background .login-container h2,
+body.random-background .login-container p {
+    color: inherit; /* Kế thừa màu chữ động */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Bóng chữ nhẹ để dễ đọc */
+}
+
+/* Liên kết (Link) bên trong form */
+body.random-background .login-container a {
+    color: inherit !important; /* Bắt buộc dùng màu của khung kính */
+    text-decoration: underline;
+    opacity: 0.9;
+}
+body.random-background .login-container a:hover {
+    opacity: 1;
+    color: var(--accent-color) !important;
+}
+
+/* Input nhập liệu trên nền kính */
+body.random-background .login-container input {
+    background: rgba(255, 255, 255, 0.8); /* Nền trắng mờ để dễ nhìn chữ nhập vào */
+    border: 1px solid transparent;
+    color: #333; /* Chữ khi nhập luôn là màu đen */
+    transition: all 0.3s ease;
+}
+
+body.random-background .login-container input:focus {
+    background: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Phát sáng khi focus */
+    transform: scale(1.02);
+}
+
+/* Nút bấm trên nền kính */
+body.random-background .login-container button {
+    background: var(--primary); /* Giữ màu đen hoặc đổi sang màu nổi bật */
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+body.random-background .login-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}

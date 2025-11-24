@@ -24,11 +24,11 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
 
         <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
         
-        <p id="msg" class="text-danger text-center mt-20"></p>
+        <p id="msg" class="text-center mt-20"></p>
     </form>
     
     <div class="text-center mt-20">
-        <a href="../index.php" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">
+        <a href="../index.php" style="font-size: 0.875rem; text-decoration: none;">
             ← Back to Home
         </a>
     </div>
@@ -43,10 +43,10 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     let password = document.getElementById("password").value;
     let msg = document.getElementById("msg");
     
-    // Reset thông báo
     msg.innerText = "Logging in...";
-    msg.className = "text-center mt-20"; 
-    msg.style.color = "var(--text-muted)";
+    msg.className = "text-center mt-20";
+    // Xóa việc set color thủ công bằng JS để CSS Glass tự xử lý
+    msg.style.color = "inherit"; 
 
     try {
         let res = await fetch("../api/auth/admin_login.php", {
@@ -60,12 +60,11 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             window.location.href = "admin_dashboard.php";
         } else {
             msg.innerText = data.message;
-            msg.className = "text-danger text-center mt-20";
-            msg.removeAttribute("style");
+            msg.style.color = "var(--error)"; // Màu đỏ khi lỗi
         }
     } catch (err) {
         msg.innerText = "Connection error";
-        msg.className = "text-danger text-center mt-20";
+        msg.style.color = "var(--error)";
     }
 });
 </script>

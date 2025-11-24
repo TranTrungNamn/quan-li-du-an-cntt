@@ -31,13 +31,14 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
         </form>
 
         <p style="text-align:center; margin-top: 15px; font-size: 14px;">
-            Already have an account? <a href="login.php" style="color: black; font-weight: 600;">Login</a>
+            Already have an account? <a href="login.php" style="font-weight: 600;">Login</a>
         </p>
     </div>
 
     <script src="../script.js"></script>
 
     <script>
+        // (Giữ nguyên script JS cũ)
         document.getElementById("signupForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             let username = document.getElementById("username").value;
@@ -48,6 +49,7 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
 
             if (password !== confirm_password) {
                 msg.innerText = "Passwords do not match!";
+                msg.style.color = "var(--error)";
                 return;
             }
 
@@ -63,12 +65,13 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
 
                 if (data.status === "success") {
                     msg.innerText = "Sign Up successful! Redirecting...";
-                    msg.style.color = "green";
+                    msg.style.color = "var(--success)";
                     setTimeout(() => {
                         window.location.href = "../index.php";
                     }, 1000);
                 } else {
                     msg.innerText = data.message || "Sign Up failed.";
+                    msg.style.color = "var(--error)";
                 }
             } catch (error) {
                 msg.innerText = "A network error occurred: " + error.message;

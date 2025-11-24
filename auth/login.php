@@ -30,21 +30,22 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
     </form>
     
     <p style="text-align:center; margin-top: 15px; font-size: 14px;">
-        Don't have an account? <a href="signup.php" style="color: black; font-weight: 600;">Sign Up</a>
+        Don't have an account? <a href="signup.php" style="font-weight: 600;">Sign Up</a>
         <br><br>
-        <a href="../admin/login.php" style="color: #6b7280; font-size: 12px;">Admin Login</a>
+        <a href="../admin/login.php" style="font-size: 12px;">Admin Login</a>
     </p>
 </div>
 
 <script src="../script.js"></script>
 
 <script>
+// (Giữ nguyên phần script JS cũ của bạn)
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     let msg = document.getElementById("msg");
-    msg.innerText = "";
+    msg.innerText = "Logging in...";
 
     try {
         let res = await fetch("../api/auth/user_login.php", {
@@ -58,6 +59,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             window.location.href = "../index.php";
         } else {
             msg.innerText = data.message || "Login failed.";
+            msg.style.color = "var(--error)"; // Đảm bảo màu lỗi hiển thị đúng
         }
     } catch (error) {
         msg.innerText = "A network error occurred: " + error.message;

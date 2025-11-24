@@ -1,19 +1,31 @@
 <?php
 
+require_once __DIR__ . "/common.php";
+
 function scrape_ytesonhuong_list($url)
 {
-    // --- dùng cURL để tránh bị chặn ---
-    $html = curl_get($url);
+    // 1. Dùng fetch_html từ common.php (giống sieuthiyte) để xử lý header/gzip tốt hơn
+    try {
+        $html = fetch_html($url);
+    } catch (Exception $e) {
+        return [];
+    }
+
     if (!$html) return [];
 
     libxml_use_internal_errors(true);
     $doc = new DOMDocument();
-    $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+    
+    // [FIX QUAN TRỌNG] Thay thế mb_convert_encoding bị lỗi
+    // Thêm thẻ meta charset utf-8 vào đầu chuỗi HTML để DOMDocument hiểu đúng encoding
+    @$doc->loadHTML('<meta charset="utf-8">' . $html);
+    
     libxml_clear_errors();
 
     $xpath = new DOMXPath($doc);
 
     // === SELECTOR CHUẨN ===
+    // (Giữ nguyên logic selector của bạn vì nó đã lấy được dữ liệu trong log)
     $items = $xpath->query('//div[contains(@class, "product-wrapper")]');
 
     $data = [];
@@ -35,6 +47,7 @@ function scrape_ytesonhuong_list($url)
 
         $img = "";
         if ($imgNode) {
+            // Ưu tiên data-src cho lazyload
             if ($imgNode->getAttribute("data-src"))
                 $img = $imgNode->getAttribute("data-src");
             elseif ($imgNode->getAttribute("src"))
@@ -46,9 +59,8 @@ function scrape_ytesonhuong_list($url)
 
         // --- Price ---
         $priceNode = $xpath->query('.//div[contains(@class,"price-info")]//span', $item)->item(0);
-        $price = $priceNode ? trim($priceNode->textContent) : "0";
-
-        $price = (int)preg_replace('/[^0-9]/', '', $price);
+        // Dùng to_int_price từ common.php cho đồng bộ
+        $price = to_int_price($priceNode ? $priceNode->textContent : "");
 
         $data[] = [
             "title" => $title,
@@ -65,23 +77,4 @@ function scrape_ytesonhuong_list($url)
     return $data;
 }
 
-
-// -----------------------
-// CURL ANTI-BLOCK
-// -----------------------
-function curl_get($url)
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    curl_setopt($ch, CURLOPT_USERAGENT,
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36");
-
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-
-    $res = curl_exec($ch);
-    curl_close($ch);
-    return $res;
-}
+?>

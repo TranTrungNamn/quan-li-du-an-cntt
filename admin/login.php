@@ -18,16 +18,16 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
     <h2 class="text-center">Admin Login</h2>
 
     <form id="loginForm">
-            <input type="text"          id="username"   placeholder="Username"           required>
-            <input type="password"  id="password"   placeholder="Password"            required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
 
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-            
-            <p id="msg" class="text-danger text-center mt-20"></p>
-    </form>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
         
+        <p id="msg" class="text-danger text-center mt-20"></p>
+    </form>
+    
     <div class="text-center mt-20">
-        <a href="../index.php" class="text-muted-link">
+        <a href="../index.php" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">
             ← Back to Home
         </a>
     </div>

@@ -1,6 +1,6 @@
 <?php session_start(); 
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
-    header("Location: ../index.php"); // Chuyển hướng nếu đã đăng nhập
+    header("Location: ../index.php");
     exit;
 }
 ?>
@@ -17,8 +17,6 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
 </head>
 
 <body class="random-background">
-
-<body>
 
 <div class="login-container">
     <h2>User Login</h2>
@@ -38,7 +36,9 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
     </p>
 </div>
 
-<script src="../script.js>
+<script src="../script.js"></script>
+
+<script>
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     let username = document.getElementById("username").value;
@@ -63,7 +63,6 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         msg.innerText = "A network error occurred: " + error.message;
     }
 });
-
 </script>
 
 </body>

@@ -12,7 +12,6 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
 <title>Admin Login</title>
 <link rel="stylesheet" href="../style.css">
 </head>
-<body>
 
 <body class="random-background">
 
@@ -35,6 +34,8 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
     </div>
 </div>
 
+<script src="../script.js"></script>
+
 <script>
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -44,7 +45,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     
     // Reset thông báo
     msg.innerText = "Logging in...";
-    msg.className = "text-center mt-20"; // Reset màu tạm thời
+    msg.className = "text-center mt-20"; 
     msg.style.color = "var(--text-muted)";
 
     try {
@@ -59,7 +60,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             window.location.href = "admin_dashboard.php";
         } else {
             msg.innerText = data.message;
-            msg.className = "text-danger text-center mt-20"; // Thêm màu đỏ khi lỗi
+            msg.className = "text-danger text-center mt-20";
             msg.removeAttribute("style");
         }
     } catch (err) {

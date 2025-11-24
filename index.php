@@ -14,12 +14,10 @@
 
 <body class="<?= !isset($_SESSION['user_logged_in']) ? 'random-background' : '' ?>">
 
-<body>
 <script>
 // Nhận tín hiệu từ tab Scraper → bật tab Products + reload iframe
 window.addEventListener("message", function(e) {
     if (e.data.action === "refreshProducts") {
-
         // Đổi tab
         document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
         document.querySelector(".nav-item[data-tab='tab-products']").classList.add("active");
@@ -39,8 +37,7 @@ window.addEventListener("message", function(e) {
         document.querySelectorAll(".tab-page").forEach(page => page.classList.add("hidden"));
         document.getElementById("tab-compare").classList.remove("hidden");
 
-        document.querySelector("#tab-compare iframe").src =
-            "pages/compare.php?ids=" + e.data.ids.join(",");
+        document.querySelector("#tab-compare iframe").src = "pages/compare.php?ids=" + e.data.ids.join(",");
     }
 });
 </script>
@@ -77,7 +74,6 @@ window.addEventListener("message", function(e) {
 <?php if (isset($_SESSION['user_logged_in'])): ?>
 
     <section id="tab-scraper" class="tab-page">
-
         <div class="hero-section">
             <h1 class="hero-title">E-commerce Data Scraper</h1>
             <p class="hero-description">
@@ -118,7 +114,6 @@ window.addEventListener("message", function(e) {
             </div>
             <div id="resultsList" class="product-grid"></div>
         </div>
-
     </section>
 
     <section id="tab-products" class="tab-page hidden">

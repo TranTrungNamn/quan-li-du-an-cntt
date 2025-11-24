@@ -177,3 +177,89 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+/* =========================================
+   AUTO CONTRAST BACKGROUND ALGORITHM
+   ========================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    const bgElement = document.querySelector('.random-background');
+    
+    if (bgElement) {
+        setSmartRandomBackground(bgElement);
+    }
+});
+
+// ... (Phần code cũ giữ nguyên)
+
+async function setSmartRandomBackground(element) {
+    try {
+        // --- SỬA ĐỔI BẮT ĐẦU ---
+        // Tự động tính toán đường dẫn dựa trên thư mục hiện tại
+        let apiPath = 'api/random_bg.php';
+        const currentPath = window.location.pathname;
+
+        // Nếu đang đứng trong thư mục con (auth, admin, pages) thì lùi ra 1 cấp
+        if (currentPath.includes('/auth/') || 
+            currentPath.includes('/admin/') || 
+            currentPath.includes('/pages/')) {
+            apiPath = '../api/random_bg.php';
+        }
+        // --- SỬA ĐỔI KẾT THÚC ---
+
+        // 1. Gọi API lấy ảnh (dùng đường dẫn vừa tính toán)
+        const response = await fetch(apiPath + '?t=' + new Date().getTime());
+        
+        if (!response.ok) throw new Error('Failed to fetch image');
+
+        // 2. Chuyển đổi ảnh thành Blob URL
+        const blob = await response.blob();
+        const imgUrl = URL.createObjectURL(blob);
+
+        // 3. Tạo đối tượng ảnh ảo để phân tích
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = imgUrl;
+
+        img.onload = function() {
+            // 4. Cập nhật hình nền
+            element.style.backgroundImage = `url('${imgUrl}')`;
+
+            // 5. Thuật toán phân tích màu (Vẽ lên canvas 1x1 pixel)
+            const canvas = document.createElement('canvas');
+            canvas.width = 1;
+            canvas.height = 1;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, 1, 1);
+
+            // Lấy dữ liệu pixel
+            const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+
+            // 6. Tính độ sáng (Luminance)
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+            // 7. Ra quyết định màu chữ
+            if (brightness > 140) {
+                // NỀN SÁNG -> Chữ Đen
+                document.body.style.setProperty('--dynamic-text-color', '#111827'); 
+                document.body.classList.add('is-bright-bg');
+                
+                const logo = document.querySelector('.logo-image');
+                if(logo) logo.style.filter = "invert(1)"; 
+                
+            } else {
+                // NỀN TỐI -> Chữ Trắng
+                document.body.style.setProperty('--dynamic-text-color', '#ffffff');
+                document.body.classList.remove('is-bright-bg');
+                
+                const logo = document.querySelector('.logo-image');
+                if(logo) logo.style.filter = "invert(0)";
+            }
+        };
+
+    } catch (error) {
+        console.error("Lỗi tải hình nền:", error);
+        // Fallback: Nền tối mặc định
+        element.style.backgroundColor = "#222";
+        element.style.setProperty('--dynamic-text-color', '#ffffff');
+    }
+}

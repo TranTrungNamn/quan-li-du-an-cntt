@@ -15,6 +15,9 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
+
+<body class="random-background">
+
 <body>
 
 <div class="login-container">
@@ -35,7 +38,7 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
     </p>
 </div>
 
-<script>
+<script src="../script.js>
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     let username = document.getElementById("username").value;
@@ -60,6 +63,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         msg.innerText = "A network error occurred: " + error.message;
     }
 });
+
 </script>
 
 </body>

@@ -14,6 +14,8 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
 </head>
 <body>
 
+<body class="random-background">
+
 <div class="login-container">
     <h2 class="text-center">Admin Login</h2>
 

@@ -25,7 +25,7 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
 <header class="site-header">
     <div class="header-container">
         <div class="logo-area">
-            <img class="logo-image" src="../assets/images/logo.png" alt="Logo">
+            <img class="logo-image" src="../assets/logo/logo.png" alt="Logo">
             <span style="font-weight: 600; font-size: 1.1rem; margin-left: 5px;">Admin Panel</span>
         </div>
 

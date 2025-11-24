@@ -17,6 +17,8 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 
+<body class="random-background">
+
 <body>
 
     <div class="login-container">
@@ -36,7 +38,7 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
         </p>
     </div>
 
-    <script>
+    <script src="../script.js>
         document.getElementById("signupForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             let username = document.getElementById("username").value;

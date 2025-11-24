@@ -265,3 +265,91 @@ button, .btn {
 .input-group { display: flex; gap: 0.625rem; }
 .site-info { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.625rem; padding: 0.5rem 0.75rem; background: #f3f4f6; border-radius: 0.375rem; border: 1px solid var(--border); width: fit-content; text-decoration: none; color: var(--text-main); }
 .site-favicon { width: 1.25rem; height: 1.25rem; }
+
+/* =========================================
+   9. LANDING PAGE BACKGROUND (Sửa đổi)
+   ========================================= */
+
+/* Chỉ áp dụng khi body có class landing-body */
+body.landing-body {
+    /* Đường dẫn ảnh - Đảm bảo bạn đã copy ảnh vào thư mục assets/images/ */
+    background-image: url('assets/images/jonah-loffler-hCc60xNGgZI-unsplash.jpg');
+    
+    /* Cấu hình để ảnh phủ kín màn hình và không bị cuộn theo trang */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    
+    /* Đổi màu chữ chính sang trắng */
+    color: #ffffff;
+}
+
+/* Tùy chỉnh Header trong suốt để nhìn thấy nền phía sau */
+body.landing-body .site-header {
+    background: rgba(0, 0, 0, 0.3); /* Màu đen mờ nhẹ */
+    border-bottom: none; /* Bỏ viền kẻ ngang */
+    backdrop-filter: blur(5px); /* Hiệu ứng mờ kính (glassmorphism) */
+}
+
+/* Đổi màu chữ trên menu sang trắng */
+body.landing-body .nav-item {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* Đổ bóng nhẹ cho chữ dễ đọc */
+}
+
+body.landing-body .nav-item:hover {
+    color: var(--accent-color); /* Màu hover giữ nguyên hoặc đổi tùy ý */
+}
+
+/* Đổi màu tiêu đề Hero Section */
+body.landing-body .hero-title {
+    color: #ffffff !important; /* Ghi đè màu đen mặc định */
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+body.landing-body .hero-description {
+    color: #e5e7eb; /* Màu xám trắng nhạt */
+}
+
+
+/* =========================================
+   10. GLOBAL RANDOM BACKGROUND (Sửa đổi)
+   ========================================= */
+
+.random-background {
+    color: var(--dynamic-text-color, #ffffff); 
+    
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    transition: background-image 0.5s ease, color 0.3s ease;
+}
+
+/* Tinh chỉnh Header để nó ăn theo màu chữ */
+.random-background .site-header {
+    /* Nền kính mờ nhẹ để hòa vào background */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255, 0.1);
+}
+
+.random-background .nav-item {
+    color: var(--dynamic-text-color, #ffffff);
+    font-weight: 500;
+}
+
+/* Hiệu ứng bóng chữ nhẹ để dễ đọc hơn trong mọi tình huống */
+.random-background .hero-title,
+.random-background .hero-description, 
+.random-background .nav-item {
+    text-shadow: 0 1px 4px rgba(0,0,0,0.15); 
+}
+
+/* (Tùy chọn) Nếu nền quá sáng (chữ đen), làm header tối lại chút để rõ biên giới */
+body.is-bright-bg .site-header {
+    background: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid #e5e7eb;
+}

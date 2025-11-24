@@ -11,8 +11,10 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
 
+<body class="<?= !isset($_SESSION['user_logged_in']) ? 'random-background' : '' ?>">
+
+<body>
 <script>
 // Nhận tín hiệu từ tab Scraper → bật tab Products + reload iframe
 window.addEventListener("message", function(e) {
@@ -46,7 +48,7 @@ window.addEventListener("message", function(e) {
 <header class="site-header">
     <div class="header-container">
         <div class="logo-area">
-            <img class='logo-image' src="assets/images/logo.png" alt="Logo Website">
+            <img class='logo-image' src="assets/logo/logo.png" alt="Logo Website">
         </div>
 
         <nav class="main-nav">
@@ -133,7 +135,7 @@ window.addEventListener("message", function(e) {
 
     <section id="tab-landing" class="tab-page">
         <div class="hero-section" style="margin-top: 100px;">
-            <h1 class="hero-title" style="color: var(--primary);">Welcome to E-commerce Data Tool</h1>
+            <h1 class="hero-title">Welcome to E-commerce Data Tool</h1>
             <p class="hero-description" style="font-size: 1.25rem; margin-bottom: 30px;">
                 Please Login or Sign Up to access the tools.
             </p>

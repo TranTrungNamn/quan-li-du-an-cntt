@@ -126,13 +126,19 @@ button, .btn {
     padding: 0 1.25rem;
 }
 
-.hero-section { text-align: center; margin-bottom: 2.5rem; }
+.hero-section { 
+    text-align: center; 
+    margin-bottom: 2.5rem; 
+}
 .hero-title {
     font-size: clamp(1.5rem, 1rem + 2vw, 3rem);
     font-weight: 700;
     margin-bottom: 0.625rem;
 }
-.hero-description { color: var(--text-muted); font-size: 1rem; }
+.hero-description { 
+    color: var(--text-muted); 
+    font-size: 1rem;
+}
 
 /* Cards */
 .card {
@@ -272,8 +278,6 @@ button, .btn {
 
 /* Chỉ áp dụng khi body có class landing-body */
 body.landing-body {
-    /* Đường dẫn ảnh - Đảm bảo bạn đã copy ảnh vào thư mục assets/images/ */
-    background-image: url('assets/images/jonah-loffler-hCc60xNGgZI-unsplash.jpg');
     
     /* Cấu hình để ảnh phủ kín màn hình và không bị cuộn theo trang */
     background-repeat: no-repeat;

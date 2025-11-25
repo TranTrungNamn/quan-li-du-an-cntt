@@ -111,7 +111,7 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
                         </a>
                     </td>
                     <td style="padding: 12px 16px; font-weight: 600; color: #d32f2f;">
-                        <?= number_format($p['price_current']) ?> đ
+                        <?= ($p['price_current'] > 0) ? number_format($p['price_current']) . ' đ' : 'Liên hệ' ?>
                     </td>
                     <td style="padding: 12px 16px; color: #4b5563;">
                         <?= htmlspecialchars($p['shop_name'] ?? 'N/A') ?>

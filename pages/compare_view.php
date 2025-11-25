@@ -52,7 +52,7 @@ $listResult = $conn->query($listSql);
                 <div class="compare-title"><?= htmlspecialchars($p1['title']) ?></div>
                 <div class="price-row">
                     <div class="compare-price-current">
-                        <?= $p1PriceCur > 0 ? number_format($p1PriceCur) . " đ" : "—" ?>
+                        <?= $p1PriceCur > 0 ? number_format($p1PriceCur)  .  " đ" : "Contact" ?>
                     </div>
                     <?php if ($p1PriceOrig > 0): ?>
                         <div>

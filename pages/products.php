@@ -180,8 +180,14 @@ if ($result) {
                         </h3>
 
                         <div class="price-box">
-                            <span class="current-price"><?= number_format($row['price_current']) ?>₫</span>
-                            <?php if ($row['price_original'] > $row['price_current']): ?>
+                            <span class="current-price">
+                                <?= ($row['price_current'] > 0) ? number_format($row['price_current']) . '₫' : 'Liên hệ' ?>
+                            </span>
+                            
+                            <?php 
+                            // Chỉ hiện giá cũ nếu giá hiện tại > 0 và có giá cũ
+                            if ($row['price_current'] > 0 && $row['price_original'] > $row['price_current']): 
+                            ?>
                                 <span class="old-price"><?= number_format($row['price_original']) ?>₫</span>
                             <?php endif; ?>
                         </div>

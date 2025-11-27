@@ -2,7 +2,7 @@
 require_once __DIR__ . "/../api/db.php";
 
 /* ========================
-   1. LOGIC PHP
+   1. LOGIC PHP (Giữ nguyên)
    ======================== */
 $keyword  = trim($_GET['q'] ?? "");
 $platform = trim($_GET['platform'] ?? "");
@@ -50,19 +50,25 @@ if ($result) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Products List</title>
+    <title>Products Library</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="../style.css">
 </head>
 
-<body>
+<body class="iframe-page-body">
+
 <main class="main-content">
 
-    <h1 class="hero-title" style="font-size: 24px; margin-bottom: 10px;">Products Library</h1>
-    <p class="hero-description" style="margin-bottom: 20px; color:#666;">
-        Found <strong style="color:#111;"><?= count($product_list) ?></strong> items.
+    <h1 class="hero-title">Products Library</h1>
+    <p class="hero-description">
+        Found <strong><?= count($product_list) ?></strong> items in database.
     </p>
 
-    <form method="GET" class="search-bar-container" style="background:white; padding:15px; border-radius:8px; border:1px solid #e5e7eb; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+    <form method="GET" class="search-bar-container">
         <input type="text" name="q" placeholder="Search products..." value="<?= htmlspecialchars($keyword) ?>" class="search-input">
 
         <select name="platform" class="filter-select">
@@ -141,7 +147,7 @@ if ($result) {
 
                     <div class="card-footer">
                         <a href="<?= htmlspecialchars($row['product_url']) ?>" target="_blank" class="btn-view">
-                            View Detail
+                            View Product
                         </a>
                     </div>
 
@@ -149,8 +155,8 @@ if ($result) {
             <?php endforeach; ?>
         <?php else: ?>
             <div style="grid-column: 1/-1; text-align:center; padding:50px; background:white; border-radius:8px;">
-                <p style="color:#6b7280;">No products found. Try changing filters.</p>
-                <a href="products.php" class="btn btn-primary" style="margin-top:10px;">Clear All Filters</a>
+                <p style="color:#6b7280;">No products found in library.</p>
+                <a href="products.php" class="btn btn-primary" style="margin-top:10px;">Reset Filters</a>
             </div>
         <?php endif; ?>
     </div>

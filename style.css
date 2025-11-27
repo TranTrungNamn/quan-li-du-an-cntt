@@ -822,3 +822,42 @@ body.app-mode .main-content {
         max-width: 100%;
     }
 }
+
+/* =========================================
+   14. IFRAME PAGE STYLES (Products Library)
+   (Đồng bộ giao diện Iframe với trang chủ)
+   ========================================= */
+
+/* Class dành riêng cho body của trang trong Iframe */
+body.iframe-page-body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: 'Inter', sans-serif; /* Đảm bảo font chữ đồng bộ */
+    
+    /* Luôn hiện thanh cuộn dọc (scroll) để chiều ngang không bị giật 
+       so với trang chủ (nơi cũng có thanh cuộn) */
+    overflow-y: scroll; 
+    overflow-x: hidden;
+}
+
+/* Căn lề nội dung chính cho khớp với #tab-scraper (padding: 1.25rem) */
+body.iframe-page-body .main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.25rem; /* 20px - Khớp hoàn toàn với bên Scraper */
+    min-height: 100%;
+}
+
+/* Căn giữa tiêu đề và mô tả trong trang Products */
+body.iframe-page-body .hero-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 0.625rem;
+}
+
+body.iframe-page-body .hero-description {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}

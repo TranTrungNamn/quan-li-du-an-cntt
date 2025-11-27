@@ -117,36 +117,36 @@ $result = $conn->query($sql);
 </div>
 
 <script>
-let selected = [];
-document.querySelectorAll(".cmp-box").forEach(box => {
-    box.addEventListener("change", function() {
-        let id = this.value;
-        if (this.checked) {
-            if (!selected.includes(id)) selected.push(id);
-        } else {
-            selected = selected.filter(x => x != id);
-        }
-        updateCompareBar();
+    let selected = [];
+    document.querySelectorAll(".cmp-box").forEach(box => {
+        box.addEventListener("change", function() {
+            let id = this.value;
+            if (this.checked) {
+                if (!selected.includes(id)) selected.push(id);
+            } else {
+                selected = selected.filter(x => x != id);
+            }
+            updateCompareBar();
+        });
     });
-});
 
-function updateCompareBar() {
-    const bar = document.getElementById("compareBar");
-    const count = document.getElementById("cmpCount");
-    const btn = document.getElementById("cmpBtn");
+    function updateCompareBar() {
+        const bar = document.getElementById("compareBar");
+        const count = document.getElementById("cmpCount");
+        const btn = document.getElementById("cmpBtn");
 
-    if (selected.length === 0) {
-        bar.style.display = "none";
-        return;
+        if (selected.length === 0) {
+            bar.style.display = "none";
+            return;
+        }
+        if (selected.length > 4) {
+            alert("Maximum 4 products allowed!");
+            selected.pop();
+        }
+        bar.style.display = "block";
+        count.textContent = selected.length;
+        btn.href = "../pages/compare.php?ids=" + selected.join(",");
     }
-    if (selected.length > 4) {
-        alert("Maximum 4 products allowed!");
-        selected.pop();
-    }
-    bar.style.display = "block";
-    count.textContent = selected.length;
-    btn.href = "../pages/compare.php?ids=" + selected.join(",");
-}
 </script>
 </body>
 </html>

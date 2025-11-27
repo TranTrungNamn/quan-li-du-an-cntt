@@ -1268,3 +1268,31 @@ body.no-scroll {
     overflow: hidden !important;
     height: 100vh; /* Đảm bảo chiều cao luôn full màn hình */
 }
+
+/* =========================================
+   TEXT GLOW EFFECT (TÁCH LỚP CHỮ)
+   ========================================= */
+
+/* Mặc định: Nền tối -> Chữ Trắng -> Glow Đen */
+.random-background .hero-title,
+.random-background .hero-description {
+    transition: text-shadow 0.3s ease, color 0.3s ease;
+    
+    /* Hiệu ứng Glow đen nhiều lớp:
+       - Lớp 1: Đậm sát chân chữ để giữ nét
+       - Lớp 2: Nhòe rộng ra xung quanh để tách nền */
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.9), 
+        0 0 20px rgba(0, 0, 0, 0.7),
+        0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Trường hợp: Nền sáng -> Chữ Đen -> Glow Trắng */
+body.is-bright-bg.random-background .hero-title,
+body.is-bright-bg.random-background .hero-description {
+    /* Hiệu ứng Glow trắng tỏa ra như hào quang */
+    text-shadow: 
+        0 0 5px rgba(255, 255, 255, 1), 
+        0 0 15px rgba(255, 255, 255, 0.9),
+        0 0 30px rgba(255, 255, 255, 0.7);
+}

@@ -13,7 +13,7 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
 <link rel="stylesheet" href="../style.css">
 </head>
 
-<body class="random-background">
+<body class="random-background no-scroll">
 
 <div class="login-container">
     <h2 class="text-center">Admin Login</h2>

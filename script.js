@@ -416,3 +416,42 @@ async function setSmartRandomBackground(element) {
     element.style.backgroundColor = "#222";
   }
 }
+
+/* =========================================
+   NAVBAR RANDOM BACKGROUND LOGIC
+   ========================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    const navbarBg = document.getElementById("navbarBg");
+    if (navbarBg) {
+        setNavbarRandomImage(navbarBg);
+    }
+});
+
+async function setNavbarRandomImage(element) {
+    try {
+        // Tự động tính đường dẫn API (giống hàm background body cũ)
+        let apiPath = "api/random_bg.php";
+        const currentPath = window.location.pathname;
+        
+        // Nếu đang ở thư mục con
+        if (currentPath.includes("/auth/") || currentPath.includes("/admin/") || currentPath.includes("/pages/")) {
+            apiPath = "../api/random_bg.php";
+        }
+
+        // Gọi API để lấy ảnh (thêm tham số t để tránh cache)
+        const response = await fetch(apiPath + "?type=navbar&t=" + new Date().getTime());
+        
+        if (!response.ok) throw new Error("Failed navbar bg");
+
+        const blob = await response.blob();
+        const imgUrl = URL.createObjectURL(blob);
+
+        // Set background
+        element.style.backgroundImage = `url('${imgUrl}')`;
+
+    } catch (error) {
+        console.warn("Navbar BG Error:", error);
+        // Fallback image nếu lỗi
+        element.style.backgroundImage = "url('https://source.unsplash.com/random/1600x200?abstract,texture')";
+    }
+}

@@ -1,3 +1,5 @@
+<?php include 'includes/navbar.php'; ?>
+
 <?php
 session_start();
 require_once "../api/db.php";
@@ -22,22 +24,6 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
 </head>
 <body>
 
-<header class="site-header">
-    <div class="header-container">
-        <div class="logo-area">
-            <img class="logo-image" src="../assets/logo/logo.png" alt="Logo">
-            <span style="font-weight: 600; font-size: 1.1rem; margin-left: 5px;">Admin Panel</span>
-        </div>
-
-        <nav class="main-nav">
-            <ul class="nav-links">
-                <li class="nav-item active">Dashboard</li>
-                <li class="nav-item" onclick="window.location='../index.php'">View Website</li>
-                <li class="nav-item" onclick="window.location='logout.php'" style="color: var(--error);">Logout</li>
-            </ul>
-        </nav>
-    </div>
-</header>
 
 <div class="container mt-20">
 

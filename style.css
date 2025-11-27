@@ -413,7 +413,8 @@ body.random-background .login-container h2 {
 /* Ô nhập liệu (Input Fields) */
 body.random-background .login-container input {
     background: var(--glass-input-bg, rgba(255, 255, 255, 0.9));
-    color: inherit; /* Ăn theo màu chữ chính để đồng bộ */
+    /* [SỬA LẠI] Đừng để inherit, hãy set cứng màu đen/xám đậm */
+    color: #1f2937 !important; /* Màu xám đen than */
     border: 1px solid transparent;
     
     /* Nếu là nền sáng thì chữ input phải tối, nền tối thì chữ input sáng */
@@ -421,15 +422,6 @@ body.random-background .login-container input {
     /* Hoặc đơn giản hơn: JS đã tính toán --glass-text phù hợp rồi */
 }
 
-
-/* Ô nhập liệu (Input Fields) */
-body.random-background .login-container input {
-    background: var(--glass-input-bg, rgba(255, 255, 255, 0.9));
-    color: inherit;
-    border: 1px solid transparent;
-}
-
-/* [SỬA] Khi focus vào ô nhập liệu -> dùng màu động --dynamic-accent-color */
 body.random-background .login-container input:focus {
     background: var(--dynamic-glass-bg, rgba(255, 255, 255, 0.2));
     /* Đổi viền theo màu nhấn động */
@@ -651,6 +643,9 @@ body.app-mode .main-content {
     margin: 0 0 10px 0;
     line-height: 1.4;
     display: -webkit-box;
+        /* Standard property for broader compatibility */
+    line-clamp: 2;
+    /* WebKit-specific fallback */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -1144,7 +1139,9 @@ body.iframe-page-body .hero-description strong {
     text-decoration: none;
     font-weight: 500;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    /* Standard property for broader compatibility */
+    line-clamp: 2;
+    /* WebKit-specific fallback */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -1186,4 +1183,88 @@ body.iframe-page-body .hero-description strong {
     align-items: center; 
     cursor: pointer;
     user-select: none;
+}
+
+/* =========================================
+   NEW NAVBAR STYLES (Random BG + Blur)
+   ========================================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: transparent; /* Bỏ màu nền cứng */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden; /* Cắt phần blur bị lem ra ngoài */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Lớp chứa ảnh nền (sẽ được JS set background-image) */
+.navbar-bg-layer {
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px; /* Mở rộng để tránh viền trắng do blur */
+    background-position: center center;
+    background-size: cover;
+    filter: blur(10px); /* HIỆU ỨNG BLUR HÌNH ẢNH */
+    z-index: -2;
+    transition: background-image 1s ease-in-out;
+}
+
+/* Lớp phủ màu để tăng độ tương phản cho chữ */
+.navbar-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.6); /* Màu xanh đen mờ phủ lên ảnh */
+    z-index: -1;
+    backdrop-filter: blur(5px); /* Blur nhẹ thêm lớp phía sau */
+}
+
+/* Tinh chỉnh Text trên Navbar */
+/* Chỉ áp dụng màu trắng cố định KHI có class dynamic-navbar (Tức là đã Login) */
+.site-header.dynamic-navbar .nav-item {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+/* Hiệu ứng hover cho Navbar mới */
+.site-header.dynamic-navbar .nav-item:hover,
+.site-header.dynamic-navbar .nav-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+.nav-user-greeting {
+    background: rgba(0,0,0,0.3);
+    border-radius: 20px;
+    padding: 5px 15px !important;
+    margin-right: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Nút Logout / Sign Up nổi bật hơn */
+.btn-logout, .btn-signup {
+    border-radius: 6px;
+    background: rgba(239, 68, 68, 0.8) !important; /* Màu đỏ trong suốt */
+    color: white !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.btn-logout:hover, .btn-signup:hover {
+    background: rgba(239, 68, 68, 1) !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+/* Thêm class tiện ích để tắt con trỏ pointer */
+.cursor-default {
+    cursor: default !important;
+}
+
+/* Tắt cuộn trang cho các trang Login/Signup */
+body.no-scroll {
+    overflow: hidden !important;
+    height: 100vh; /* Đảm bảo chiều cao luôn full màn hình */
 }

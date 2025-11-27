@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 
+<?php include 'includes/navbar.php'; ?>
+
 <body class="<?= !isset($_SESSION['user_logged_in']) ? 'random-background' : '' ?>">
 
 <script>
@@ -41,33 +43,6 @@ window.addEventListener("message", function(e) {
     }
 });
 </script>
-
-<header class="site-header">
-    <div class="header-container">
-        <div class="logo-area">
-            <img class='logo-image' src="assets/logo/logo.png" alt="Logo Website">
-        </div>
-
-        <nav class="main-nav">
-            <ul class="nav-links">
-                <?php if (isset($_SESSION['user_logged_in'])): ?>
-                    <li class="nav-item nav-user-greeting cursor-default">
-                        Hi, <?= htmlspecialchars($_SESSION['username']) ?>!
-                    </li>
-                    <li class="nav-item active" data-tab="tab-scraper">Scraper</li>
-                    <li class="nav-item" data-tab="tab-products">Products</li>
-                    <li class="nav-item" data-tab="tab-compare">Compare</li>
-                    <li class="nav-item cursor-pointer" onclick="window.location='auth/logout.php'">Logout</li>
-                <?php else: ?>
-                    <li class="nav-item active" data-tab="tab-landing">Home</li>
-                    <li class="nav-item cursor-pointer" onclick="window.location='auth/login.php'">Login</li>
-                    <li class="nav-item cursor-pointer" onclick="window.location='auth/signup.php'">Sign Up</li>
-                <?php endif; ?>
-            </ul>
-        </nav>
-
-    </div>
-</header>
 
 <main class="main-content">
 

@@ -98,7 +98,7 @@ if ($result) {
 
         <button type="submit" class="btn btn-primary search-btn">Apply</button>
         <?php if ($keyword || $platform || $category || $sort): ?>
-            <a href="products.php" class="btn" style="background:#f3f4f6; color:#374151; margin-left:5px;">Reset</a>
+            <a href="products.php" class="btn btn-secondary" style="margin-left:5px;">Reset</a>
         <?php endif; ?>
     </form>
 
@@ -140,7 +140,7 @@ if ($result) {
                                     <span class="price-old"><?= number_format($row['price_original']) ?>₫</span>
                                 <?php endif; ?>
                             <?php else: ?>
-                                <span class="price-current" style="color:#6b7280">Liên hệ</span>
+                                <span class="price-current text-contact">Contact</span>
                             <?php endif; ?>
                         </div>
                     </div>

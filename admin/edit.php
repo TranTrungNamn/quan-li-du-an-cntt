@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 
 <div class="auth-wrapper" style="align-items: flex-start; padding-top: 40px;">
-    <div class="auth-card" style="max-width: 600px;">
+    <div class="auth-card-wide">
         <h2 class="auth-title" style="text-align: left;">Edit Product</h2>
         <p class="auth-subtitle" style="text-align: left; margin-bottom: 24px;">ID: #<?= $id ?></p>
 

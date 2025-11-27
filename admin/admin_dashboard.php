@@ -41,8 +41,8 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
 
 <div class="container mt-20">
 
-    <div class="card mb-20" style="border: 1px solid #2563eb;">
-        <div class="card-header" style="background: #eff6ff; display: flex; justify-content: space-between; align-items: center;">
+    <div class="card mb-20 card-accent-blue">
+        <div class="card-header card-header-flex">
             <h3 class="card-title" style="color: #1e40af;">Scrape Products</h3>
             <span style="font-size: 0.85rem; color: #64748b;">Supported: SieuThiYTe, Phana, YTeSonHuong</span>
         </div>

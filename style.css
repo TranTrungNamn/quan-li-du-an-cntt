@@ -844,22 +844,26 @@ body.iframe-page-body {
 
 /* Căn lề nội dung chính cho khớp với #tab-scraper (padding: 1.25rem) */
 body.iframe-page-body .main-content {
-    max-width: 1200px;
+    max-width: 100%; /* [SỬA] Đổi thành 100% để lấp đầy màn hình giống tab Scraper */
     margin: 0 auto;
-    padding: 1.25rem; /* 20px - Khớp hoàn toàn với bên Scraper */
+    padding: 1.25rem; 
     min-height: 100%;
 }
 
-/* Căn giữa tiêu đề và mô tả trong trang Products */
+/* [SỬA] Căn trái tiêu đề để đồng bộ với Scraper Result */
 body.iframe-page-body .hero-title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 0.625rem;
+    text-align: left;      /* Căn trái */
+    font-size: 1.5rem;     /* Giảm kích thước xuống (từ 2rem -> 1.5rem) cho giống tiêu đề section */
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #111827;
 }
 
 body.iframe-page-body .hero-description {
-    text-align: center;
-    margin-bottom: 2.5rem;
+    text-align: left;      /* Căn trái */
+    margin-bottom: 1.5rem; /* Thu gọn khoảng cách dưới */
+    color: #6b7280;
+    font-size: 0.95rem;    /* Chữ mô tả nhỏ gọn hơn */
 }
 
 /* =========================================
@@ -1006,4 +1010,50 @@ body.iframe-page-body .hero-description {
     align-items: center;
     justify-content: center;
     color: #999;
+}
+
+
+/* =========================================
+   16. UNIFIED PAGE HEADERS (Scraper, Products, Compare)
+   Đồng bộ giao diện tiêu đề của cả 3 trang
+   ========================================= */
+
+/* 1. Reset container nếu có */
+.results-header,
+body.iframe-page-body .hero-section {
+    text-align: left;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+/* 2. Đồng bộ Tiêu đề chính (Scraped Results / Products Library / Compare) */
+.results-title,
+body.iframe-page-body .hero-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;       /* 24px - Kích thước chuẩn */
+    font-weight: 700;        /* In đậm */
+    color: #111827;          /* Màu đen than */
+    text-align: left !important; /* Bắt buộc căn trái */
+    margin: 0 0 8px 0;       /* Khoảng cách dưới tiêu đề */
+    line-height: 1.2;
+    text-shadow: none;       /* Loại bỏ bóng chữ nếu bị dính từ style cũ */
+}
+
+/* 3. Đồng bộ Dòng mô tả / Số lượng (Found X items...) */
+.results-count,
+body.iframe-page-body .hero-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;      /* 15px - Nhỏ hơn tiêu đề */
+    font-weight: 400;        /* Chữ thường */
+    color: #6b7280;          /* Màu xám nhạt */
+    text-align: left !important; /* Bắt buộc căn trái */
+    margin: 0 0 24px 0;      /* Khoảng cách dưới mô tả */
+    line-height: 1.5;
+}
+
+/* 4. Tô đậm các con số (nếu có thẻ span/strong bên trong) */
+.results-count span,
+body.iframe-page-body .hero-description strong {
+    font-weight: 600;
+    color: #111827;          /* Số hiển thị màu đậm hơn chữ thường */
 }

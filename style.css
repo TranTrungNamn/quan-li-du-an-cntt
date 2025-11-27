@@ -421,38 +421,51 @@ body.random-background .login-container input {
     /* Hoặc đơn giản hơn: JS đã tính toán --glass-text phù hợp rồi */
 }
 
-/* Khi focus vào ô nhập liệu */
+
+/* Ô nhập liệu (Input Fields) */
+body.random-background .login-container input {
+    background: var(--glass-input-bg, rgba(255, 255, 255, 0.9));
+    color: inherit;
+    border: 1px solid transparent;
+}
+
+/* [SỬA] Khi focus vào ô nhập liệu -> dùng màu động --dynamic-accent-color */
 body.random-background .login-container input:focus {
-    background: var(--glass-bg); /* Input trở nên trong suốt hơn khi gõ */
-    border-color: var(--glass-accent, #2196f3);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glass-accent) 30%, transparent);
+    background: var(--dynamic-glass-bg, rgba(255, 255, 255, 0.2));
+    /* Đổi viền theo màu nhấn động */
+    border-color: var(--dynamic-accent-color, #2196f3);
+    /* Hiệu ứng tỏa sáng cùng tông màu */
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--dynamic-accent-color, #2196f3) 30%, transparent);
     outline: none;
 }
 
-/* Nút bấm (Button) */
+/* [SỬA] Nút bấm (Button) -> dùng màu động --dynamic-accent-color */
 body.random-background .login-container button {
-    background: var(--glass-accent, #2196f3);
-    color: var(--glass-btn-text, #ffffff);
+    /* Nền nút ăn theo màu chủ đạo của ảnh nền */
+    background: var(--dynamic-accent-color, #2196f3);
+    color: #ffffff; /* Chữ trên nút luôn trắng cho nổi bật */
     border: none;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
 body.random-background .login-container button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    filter: brightness(1.1); /* Làm nút sáng lên chút khi hover */
+    /* Khi hover thì bóng đổ đậm hơn chút */
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--dynamic-accent-color, #2196f3) 40%, transparent);
+    filter: brightness(1.1);
 }
 
-/* Đường link (Quên mật khẩu, Đăng ký...) */
+/* [SỬA] Đường link (Quên mật khẩu, Đăng ký...) -> dùng màu động */
 body.random-background .login-container a {
-    color: var(--glass-accent, #2196f3) !important;
+    color: var(--dynamic-accent-color, #2196f3) !important;
     font-weight: 600;
     text-decoration: none;
     position: relative;
+    transition: color 0.3s;
 }
 
 /* Hiệu ứng gạch chân bay bay khi hover link */
@@ -463,16 +476,17 @@ body.random-background .login-container a::after {
     height: 2px;
     bottom: -2px;
     left: 0;
-    background-color: var(--glass-accent);
+    /* Gạch chân cũng theo màu động */
+    background-color: var(--dynamic-accent-color, #2196f3);
     transition: width 0.3s;
 }
 body.random-background .login-container a:hover::after {
     width: 100%;
 }
 
-/* Placeholder màu nhạt hơn chữ chính */
+/* Placeholder */
 body.random-background .login-container input::placeholder {
-    color: var(--glass-text);
+    color: inherit;
     opacity: 0.6;
 }
 
@@ -542,4 +556,269 @@ body.app-mode .main-content {
     height: 100%;
     border: none;
     display: block;
+}
+
+/* =========================================
+   12. UNIFIED PRODUCT CARD STYLES
+   (Dùng chung cho Scraper & Products Library)
+   ========================================= */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding-bottom: 40px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: box-shadow 0.3s ease, transform 0.2s;
+    position: relative;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    border-color: #d1d5db;
+}
+
+/* --- PHẦN ẢNH --- */
+.card-image-wrap {
+    height: 180px;
+    width: 100%;
+    padding: 15px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #f3f4f6;
+    position: relative;
+}
+
+.card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Badge giảm giá */
+.tag-discount {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: #ef4444;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+/* --- PHẦN NỘI DUNG --- */
+.card-body {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Badge Platform (Shopee/Tiki/...) */
+.tag-platform {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    width: fit-content;
+}
+.badge-sieuthiyte { color: #0ea5e9; background: #e0f2fe; }
+.badge-phana { color: #10b981; background: #d1fae5; }
+.badge-ytesonhuong { color: #f59e0b; background: #fef3c7; }
+
+.product-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 40px;
+}
+
+.price-row {
+    margin-top: auto;
+}
+
+.price-current {
+    font-size: 16px;
+    font-weight: 700;
+    color: #db2777;
+}
+
+.price-old {
+    font-size: 12px;
+    color: #9ca3af;
+    text-decoration: line-through;
+    margin-left: 6px;
+}
+
+/* --- PHẦN CHÂN (BUTTON) --- */
+.card-footer {
+    padding: 12px 15px;
+    background: #f9fafb;
+    border-top: 1px solid #f3f4f6;
+}
+
+/* Nút "View Product" chuẩn */
+.btn-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0;
+    
+    /* Yêu cầu: Nền trắng, chữ đen, viền nhẹ */
+    background: #ffffff;
+    color: #1f2937;
+    border: 1px solid #e5e7eb;
+    
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+/* Yêu cầu: Hover thành màu đen, chữ trắng */
+.btn-view:hover {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+/* =========================================
+   13. ENHANCED SCRAPER UI LAYOUT
+   (Bố cục chi tiết: Trái Gợi ý - Phải Nhập liệu)
+   ========================================= */
+
+.scraper-ui-layout {
+    display: flex;
+    align-items: flex-start; /* Căn hàng trên cùng */
+    gap: 40px;
+    padding: 10px 0;
+}
+
+/* --- CỘT TRÁI: GỢI Ý (SUGGESTIONS) --- */
+.scraper-suggestions {
+    flex: 0 0 35%; /* Chiếm 35% chiều rộng */
+    padding-right: 30px;
+    border-right: 1px solid #e5e7eb; /* Đường kẻ ngăn cách mờ */
+}
+
+.suggestion-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.suggestion-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.suggestion-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.platform-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* --- CỘT PHẢI: FORM NHẬP LIỆU --- */
+.scraper-input-area {
+    flex: 1; /* Chiếm phần còn lại */
+}
+
+/* Input Group căn phải */
+.scraper-form .input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end; /* QUAN TRỌNG: Đẩy toàn bộ ô nhập và nút sang phải */
+}
+
+/* Ô nhập liệu giới hạn chiều rộng để đẹp hơn khi căn phải */
+.scraper-form .input-group input {
+    max-width: 450px; 
+    width: 100%;
+    /* Thêm chút bóng đổ cho input nổi bật */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02); 
+    border: 1px solid #d1d5db;
+}
+
+.scraper-form .input-group input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+
+/* Site Info (Favicon & Domain) cũng căn phải */
+.scraper-form .site-info {
+    margin-left: auto; 
+    margin-right: 0;
+    margin-top: 12px;
+    display: table; /* Hack nhỏ để margin auto hoạt động với width fit-content */
+}
+
+/* Lỗi hiển thị căn phải */
+.scraper-form .error-text {
+    text-align: right;
+    margin-top: 10px;
+    color: var(--error);
+    font-weight: 500;
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 900px) {
+    .scraper-ui-layout {
+        flex-direction: column; /* Xếp chồng dọc trên mobile */
+        gap: 20px;
+    }
+    
+    .scraper-suggestions {
+        flex: auto;
+        max-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+    
+    .scraper-form .input-group {
+        justify-content: stretch; /* Mobile thì giãn full chiều rộng */
+    }
+    
+    .scraper-form .input-group input {
+        max-width: 100%;
+    }
 }

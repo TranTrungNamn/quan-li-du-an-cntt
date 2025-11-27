@@ -138,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
       currency: "VND",
     }).format(v);
   }
-
   function displayResult(list) {
     if (!resultsSection || !resultsList) return;
 
@@ -156,35 +155,61 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // [MODIFIED] Cấu trúc HTML đồng bộ với products.php
     const html = list
-      .map(
-        (item) => `
+      .map((item) => {
+        // Tính toán discount giả lập (nếu có)
+        let discountHtml = "";
+        if (item.price_original > item.price_new && item.price_new > 0) {
+          const percent = Math.round(
+            ((item.price_original - item.price_new) / item.price_original) * 100
+          );
+          if (percent > 0) {
+            discountHtml = `<span class="tag-discount">-${percent}%</span>`;
+          }
+        }
+
+        // Hiển thị giá cũ (nếu có)
+        let oldPriceHtml = "";
+        if (item.price_original > item.price_new) {
+          oldPriceHtml = `<span class="price-old">${formatCurrency(
+            item.price_original
+          )}</span>`;
+        }
+
+        return `
             <div class="product-card">
-                <div class="product-image-container">
+                
+                <div class="card-image-wrap">
                     <img src="${item.image || "https://placehold.co/300x300"}"
-                         class="product-image"
-                         style="width:100%; height:100%; object-fit:contain;" 
                          onerror="this.src='https://placehold.co/300x300?text=No+Image'">
+                    ${discountHtml}
                 </div>
 
-                <div class="product-info">
-                    <h3 class="product-title" style="font-size:0.9rem; margin-bottom:5px;">${
-                      item.title
-                    }</h3>
+                <div class="card-body">
+                    <span class="tag-platform" style="background:#dbeafe; color:#1e40af">Scraped Item</span>
 
-                    <div class="price-box">
-                        <span class="current-price" style="color:#e91e63; font-weight:bold;">
+                    <h3 class="product-title" title="${item.title}">
+                        ${item.title}
+                    </h3>
+
+                    <div class="price-row">
+                        <span class="price-current">
                             ${formatCurrency(item.price_new)}
                         </span>
+                        ${oldPriceHtml}
                     </div>
                 </div>
 
-                <a href="${item.link}" target="_blank" class="view-btn">
-                    View Product
-                </a>
+                <div class="card-footer">
+                    <a href="${item.link}" target="_blank" class="btn-view">
+                        View Product
+                    </a>
+                </div>
+
             </div>
-        `
-      )
+            `;
+      })
       .join("");
 
     resultsList.innerHTML = html;

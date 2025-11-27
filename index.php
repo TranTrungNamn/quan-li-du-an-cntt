@@ -77,39 +77,57 @@ window.addEventListener("message", function(e) {
         <div class="hero-section">
             <h1 class="hero-title">E-commerce Data Scraper</h1>
             <p class="hero-description">
-                Enter a product category URL below to automatically extract product details.
+                Extract product data automatically from supported platforms.
             </p>
         </div>
 
         <div class="input-section">
             <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Target URL</h2>
-                </div>
                 <div class="card-content">
-                    <form id="scrapeForm" class="scrape-form">
-                        <div class="input-group">
-                            <input type="url" id="urlInput" placeholder="https://example.com/products..." required class="form-input">
-                            <button type="submit" id="scrapeBtn" class="btn btn-primary">
-                                <span class="btn-text">Start Scraping</span>
-                                <span class="spinner hidden"></span>
-                            </button>
+                    
+                    <div class="scraper-ui-layout">
+                        
+                        <div class="scraper-suggestions">
+                            <div class="suggestion-header">
+                                <span style="font-size: 1.2rem;">💡</span>
+                                <h3>Supported Sites</h3>
+                            </div>
+                            <p class="suggestion-desc">
+                                Paste a category URL from one of these medical e-commerce platforms to extract data instantly:
+                            </p>
+                            <div class="platform-list">
+                                <span class="tag-platform badge-sieuthiyte">SieuThiYTe</span>
+                                <span class="tag-platform badge-phana">Phana</span>
+                                <span class="tag-platform badge-ytesonhuong">YTeSonHuong</span>
+                            </div>
                         </div>
 
-                        <a id="siteInfo" href="#" target="_blank" class="site-info hidden">
-                            <img id="siteFavicon" src="" alt="Logo" class="site-favicon">
-                            <span id="siteDomain" class="site-domain"></span>
-                        </a>
+                        <div class="scraper-input-area">
+                            <form id="scrapeForm" class="scrape-form">
+                                <div class="input-group">
+                                    <input type="url" id="urlInput" placeholder="Paste target URL here..." required>
+                                    <button type="submit" id="scrapeBtn" class="btn btn-primary">
+                                        <span class="btn-text">Start Scraping</span>
+                                        <span class="spinner hidden"></span>
+                                    </button>
+                                </div>
 
-                        <p id="errorMessage" class="error-text hidden"></p>
-                    </form>
-                </div>
+                                <a id="siteInfo" href="#" target="_blank" class="site-info hidden">
+                                    <img id="siteFavicon" src="" alt="Logo" class="site-favicon">
+                                    <span id="siteDomain" class="site-domain"></span>
+                                </a>
+
+                                <p id="errorMessage" class="error-text hidden"></p>
+                            </form>
+                        </div>
+
+                    </div> </div>
             </div>
         </div>
 
         <div id="resultsSection" class="results-section hidden">
             <div class="results-header">
-                <h2 class="results-title">Scraped Products</h2>
+                <h2 class="results-title">Scraped Results</h2>
                 <p class="results-count">Found <span id="countValue">0</span> items</p>
             </div>
             <div id="resultsList" class="product-grid"></div>

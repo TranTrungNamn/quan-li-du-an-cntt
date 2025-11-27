@@ -264,3 +264,107 @@ async function setSmartRandomBackground(element) {
         element.style.setProperty('--dynamic-text-color', '#ffffff');
     }
 }
+
+// Hàm hỗ trợ: Chuyển đổi RGB sang HSL
+function rgbToHsl(r, g, b) {
+    r /= 255, g /= 255, b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+    return [h * 360, s * 100, l * 100]; // Trả về H(0-360), S(0-100), L(0-100)
+}
+
+async function setSmartRandomBackground(element) {
+    try {
+        // --- Tự động tính toán đường dẫn API ---
+        let apiPath = 'api/random_bg.php';
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('/auth/') || currentPath.includes('/admin/') || currentPath.includes('/pages/')) {
+            apiPath = '../api/random_bg.php';
+        }
+
+        const response = await fetch(apiPath + '?t=' + new Date().getTime());
+        if (!response.ok) throw new Error('Failed to fetch image');
+
+        const blob = await response.blob();
+        const imgUrl = URL.createObjectURL(blob);
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = imgUrl;
+
+        img.onload = function() {
+            element.style.backgroundImage = `url('${imgUrl}')`;
+
+            // --- PHÂN TÍCH MÀU NÂNG CAO ---
+            const canvas = document.createElement('canvas');
+            canvas.width = 1;
+            canvas.height = 1;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, 1, 1);
+            
+            // Lấy màu trung bình (Dominant Color)
+            const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+            
+            // Chuyển sang HSL để dễ thao tác độ sáng/bão hòa
+            const [h, s, l] = rgbToHsl(r, g, b);
+
+            // --- THUẬT TOÁN CHỌN MÀU CHỮ "NGHỆ" ---
+            let textColor, accentColor, glassBg;
+
+            // Ngưỡng độ sáng để quyết định nền Sáng hay Tối
+            if (l > 55) { 
+                // NỀN SÁNG (Ví dụ: Bãi cát, Bầu trời ban ngày)
+                // -> Chữ sẽ là phiên bản RẤT ĐẬM của màu nền (giữ tông màu nhưng làm tối đi)
+                // Hue giữ nguyên, Saturation tăng lên chút, Lightness giảm sâu xuống 10-15%
+                textColor = `hsl(${h}, ${Math.min(s + 20, 100)}%, 15%)`; 
+                
+                // Màu nhấn (accent) tươi hơn chút
+                accentColor = `hsl(${h}, ${Math.min(s + 40, 100)}%, 40%)`;
+                
+                // Nền kính (Glass) màu trắng mờ
+                glassBg = `rgba(255, 255, 255, 0.6)`; 
+                
+                document.body.classList.add('is-bright-bg');
+                const logo = document.querySelector('.logo-image');
+                if(logo) logo.style.filter = "invert(1) sepia(1) hue-rotate(180deg)"; // Logo đổi màu theo tông
+
+            } else {
+                // NỀN TỐI (Ví dụ: Rừng đêm, Biển sâu)
+                // -> Chữ sẽ là phiên bản RẤT NHẠT của màu nền (pha chút màu gốc)
+                // Hue giữ nguyên, Saturation giảm bớt để đỡ chói, Lightness tăng lên 90-95%
+                textColor = `hsl(${h}, ${Math.max(s - 10, 10)}%, 95%)`; 
+                
+                // Màu nhấn rực rỡ
+                accentColor = `hsl(${h}, 80%, 70%)`;
+                
+                // Nền kính (Glass) màu đen mờ
+                glassBg = `rgba(0, 0, 0, 0.4)`;
+                
+                document.body.classList.remove('is-bright-bg');
+                const logo = document.querySelector('.logo-image');
+                if(logo) logo.style.filter = "none";
+            }
+
+            // --- ÁP DỤNG BIẾN CSS ---
+            document.body.style.setProperty('--dynamic-text-color', textColor);
+            document.body.style.setProperty('--dynamic-accent-color', accentColor);
+            document.body.style.setProperty('--dynamic-glass-bg', glassBg);
+        };
+
+    } catch (error) {
+        console.error("Lỗi tải hình nền:", error);
+        element.style.backgroundColor = "#222";
+    }
+}

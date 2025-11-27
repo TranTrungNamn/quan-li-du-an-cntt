@@ -352,74 +352,123 @@ body.landing-body .hero-description {
     text-shadow: 0 1px 4px rgba(0,0,0,0.15); 
 }
 
+
 /* (Tùy chọn) Nếu nền quá sáng (chữ đen), làm header tối lại chút để rõ biên giới */
 body.is-bright-bg .site-header {
     background: rgba(255, 255, 255, 0.7);
     border-bottom: 1px solid #e5e7eb;
 }
+body.random-background .hero-description {
+    /* Sử dụng biến màu do JS tính toán (đen hoặc trắng) */
+    color: var(--dynamic-text-color, #ffffff) !important;
+    
+    /* Thêm chút độ trong suốt để phân cấp với tiêu đề chính, nhưng vẫn rõ ràng */
+    opacity: 0.9;
+    
+    /* Đổ bóng nhẹ để tách biệt khỏi nền nếu nền quá rối */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    
+    /* Đậm hơn một chút */
+    font-weight: 500;
+}
+
 
 /* =========================================
-   11. GLASSMORPHISM LOGIN & SIGNUP (Mới)
+   11. COMPREHENSIVE GLASSMORPHISM THEME
    ========================================= */
 
-/* Chỉ áp dụng khi có hình nền (body.random-background) */
+/* Container chính của Form */
 body.random-background .login-container {
-    /* Nền kính trong suốt nhẹ */
-    background: rgba(255, 255, 255, 0.15); 
+    /* Sử dụng biến màu động từ JS */
+    background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+    color: var(--glass-text, #ffffff);
     
-    /* Hiệu ứng mờ nền phía sau (Glass effect) */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    /* Hiệu ứng mờ kính (Blur) */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     
-    /* Viền kính phát sáng nhẹ */
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    /* Viền kính tinh tế */
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
     
-    /* Đổ bóng sâu hơn để nổi bật trên nền */
+    /* Đổ bóng sâu để tách biệt khỏi nền */
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     
-    /* Màu chữ ăn theo biến động (từ script.js) */
-    color: var(--dynamic-text-color, #ffffff);
+    /* Bo góc mềm mại */
+    border-radius: 1rem;
+    transition: all 0.5s ease;
 }
 
-/* Tiêu đề và đoạn văn bên trong form */
-body.random-background .login-container h2,
-body.random-background .login-container p {
-    color: inherit; /* Kế thừa màu chữ động */
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Bóng chữ nhẹ để dễ đọc */
+/* Tiêu đề Form */
+body.random-background .login-container h2 {
+    color: inherit;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
 }
 
-/* Liên kết (Link) bên trong form */
-body.random-background .login-container a {
-    color: inherit !important; /* Bắt buộc dùng màu của khung kính */
-    text-decoration: underline;
-    opacity: 0.9;
-}
-body.random-background .login-container a:hover {
-    opacity: 1;
-    color: var(--accent-color) !important;
-}
-
-/* Input nhập liệu trên nền kính */
+/* Ô nhập liệu (Input Fields) */
 body.random-background .login-container input {
-    background: rgba(255, 255, 255, 0.8); /* Nền trắng mờ để dễ nhìn chữ nhập vào */
+    background: var(--glass-input-bg, rgba(255, 255, 255, 0.9));
+    color: inherit; /* Ăn theo màu chữ chính để đồng bộ */
     border: 1px solid transparent;
-    color: #333; /* Chữ khi nhập luôn là màu đen */
-    transition: all 0.3s ease;
+    
+    /* Nếu là nền sáng thì chữ input phải tối, nền tối thì chữ input sáng */
+    /* Trick: Dùng filter để tự động chỉnh độ tương phản cho chữ trong input nếu cần */
+    /* Hoặc đơn giản hơn: JS đã tính toán --glass-text phù hợp rồi */
 }
 
+/* Khi focus vào ô nhập liệu */
 body.random-background .login-container input:focus {
-    background: #ffffff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Phát sáng khi focus */
-    transform: scale(1.02);
+    background: var(--glass-bg); /* Input trở nên trong suốt hơn khi gõ */
+    border-color: var(--glass-accent, #2196f3);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glass-accent) 30%, transparent);
+    outline: none;
 }
 
-/* Nút bấm trên nền kính */
+/* Nút bấm (Button) */
 body.random-background .login-container button {
-    background: var(--primary); /* Giữ màu đen hoặc đổi sang màu nổi bật */
-    border: 1px solid rgba(255,255,255,0.2);
+    background: var(--glass-accent, #2196f3);
+    color: var(--glass-btn-text, #ffffff);
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
+
 body.random-background .login-container button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    filter: brightness(1.1); /* Làm nút sáng lên chút khi hover */
+}
+
+/* Đường link (Quên mật khẩu, Đăng ký...) */
+body.random-background .login-container a {
+    color: var(--glass-accent, #2196f3) !important;
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+}
+
+/* Hiệu ứng gạch chân bay bay khi hover link */
+body.random-background .login-container a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--glass-accent);
+    transition: width 0.3s;
+}
+body.random-background .login-container a:hover::after {
+    width: 100%;
+}
+
+/* Placeholder màu nhạt hơn chữ chính */
+body.random-background .login-container input::placeholder {
+    color: var(--glass-text);
+    opacity: 0.6;
 }

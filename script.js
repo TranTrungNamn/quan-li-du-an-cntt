@@ -131,8 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatCurrency(v) {
-    // Nếu giá trị là 0, null, undefined hoặc rỗng thì trả về "Liên hệ"
-    if (!v || v == 0) return "Liên hệ";
+    // Nếu giá trị là 0, null, undefined hoặc rỗng thì trả về "Contact"
+    if (!v || v == 0) return "Contact";
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",

@@ -55,7 +55,7 @@ $p2 = getProduct($conn, $id2);
                 </h3>
 
                 <div class="compare-price-large">
-                    <?= ($p1['price_current'] > 0) ? number_format($p1['price_current']) . ' ₫' : 'Liên hệ' ?>
+                    <?= ($p1['price_current'] > 0) ? number_format($p1['price_current']) . ' ₫' : 'Contact' ?>
                 </div>
 
                 <a href="<?= htmlspecialchars($p1['product_url']) ?>" target="_blank" class="btn btn-primary" style="width:100%">Mua ngay</a>
@@ -105,7 +105,7 @@ $p2 = getProduct($conn, $id2);
                 </h3>
 
                 <div class="compare-price-large">
-                    <?= ($p2['price_current'] > 0) ? number_format($p2['price_current']) . ' ₫' : 'Liên hệ' ?>
+                    <?= ($p2['price_current'] > 0) ? number_format($p2['price_current']) . ' ₫' : 'Contact' ?>
                 </div>
 
                 <a href="<?= htmlspecialchars($p2['product_url']) ?>" target="_blank" class="btn btn-primary" style="width:100%">Mua ngay</a>

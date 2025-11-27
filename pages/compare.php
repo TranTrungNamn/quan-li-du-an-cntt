@@ -132,7 +132,7 @@ if ($result) {
                                     <span class="price-old"><?= number_format($row['price_original']) ?>₫</span>
                                 <?php endif; ?>
                             <?php else: ?>
-                                <span class="price-current" style="color:#6b7280">Liên hệ</span>
+                                <span class="price-current text-contact">Contact</span>
                             <?php endif; ?>
                         </div>
                     </div>

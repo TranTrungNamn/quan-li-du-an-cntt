@@ -2,7 +2,7 @@
 require_once __DIR__ . "/../api/db.php";
 
 /* ========================
-   1. LOGIC PHP (GIỮ NGUYÊN)
+   1. LOGIC PHP
    ======================== */
 $keyword  = trim($_GET['q'] ?? "");
 $platform = trim($_GET['platform'] ?? "");
@@ -52,16 +52,12 @@ if ($result) {
     <meta charset="UTF-8">
     <title>Products List</title>
     <link rel="stylesheet" href="../style.css">
+    <!-- Style Bổ sung cho trang products.php -->
     <style>
-        /* ========================
-           NEW CARD DESIGN (FIXED LAYOUT)
-           ======================== */
-        
-        body {
-            background-color: #f3f4f6;
-            font-family: 'Inter', sans-serif;
+        .body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-y: auto;
         }
-
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

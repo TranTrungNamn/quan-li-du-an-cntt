@@ -117,12 +117,10 @@ window.addEventListener("message", function(e) {
     </section>
 
     <section id="tab-products" class="tab-page hidden">
-        <h2>Saved Products</h2>
         <iframe src="pages/products.php" class="iframe-page"></iframe>
     </section>
 
     <section id="tab-compare" class="tab-page hidden">
-        <h2>Compare Products</h2>
         <iframe src="pages/compare.php" class="iframe-page"></iframe>
     </section>
 

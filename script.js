@@ -1,3 +1,10 @@
+document.addEventListener("DOMContentLoaded", () => {
+    // Chỉ áp dụng chế độ "Ứng dụng" (App Mode) nếu đang ở trang chủ (có chứa tab-scraper)
+    if (document.getElementById('tab-scraper')) {
+        document.body.classList.add('app-mode');
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const scrapeForm = document.getElementById('scrapeForm');

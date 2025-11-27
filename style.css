@@ -1,3 +1,6 @@
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap');
+
 /* =========================================
    1. CORE SETTINGS & VARIABLES
    ========================================= */
@@ -471,4 +474,72 @@ body.random-background .login-container a:hover::after {
 body.random-background .login-container input::placeholder {
     color: var(--glass-text);
     opacity: 0.6;
+}
+
+/* 1. Cấu hình mặc định cho TẤT CẢ các trang (bao gồm cả trong iframe) */
+html, body {
+    height: 100%; /* Chiều cao full màn hình */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* QUAN TRỌNG: Mặc định phải cho phép cuộn (để iframe hoạt động) */
+    overflow-y: auto; 
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* =========================================
+   2. CẤU HÌNH RIÊNG CHO TRANG CHỦ (APP MODE)
+   Class này được thêm vào bởi script.js
+   ========================================= */
+
+body.app-mode {
+    overflow: hidden; /* Khóa thanh cuộn ngoài cùng của trình duyệt */
+    display: flex;    /* Bật chế độ Flexbox dọc */
+    flex-direction: column;
+}
+
+/* Header chỉ đứng yên khi ở trang chủ */
+body.app-mode .site-header {
+    flex: 0 0 auto; /* Không co giãn */
+    position: relative; 
+    z-index: 100;
+}
+
+/* Phần nội dung chính chiếm hết khoảng trống còn lại */
+body.app-mode .main-content {
+    flex: 1; 
+    position: relative;
+    overflow: hidden; /* Ẩn phần thừa, nhường quyền cuộn cho con */
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Tab Scraper (không phải iframe) cần tự cuộn */
+#tab-scraper {
+    height: 100%;
+    overflow-y: auto; /* Tạo thanh cuộn riêng cho tab này */
+    padding: 1.25rem;
+    padding-bottom: 3rem; /* Khoảng trống dưới cùng để không bị che nội dung */
+}
+
+/* Container chứa iframe */
+#tab-products, #tab-compare {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Iframe chiếm trọn khung hình */
+.iframe-page {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
 }

@@ -861,3 +861,149 @@ body.iframe-page-body .hero-description {
     text-align: center;
     margin-bottom: 2.5rem;
 }
+
+/* =========================================
+   15. COMPARE PAGE STYLES (New)
+   ========================================= */
+
+/* --- Floating Bar ở trang chọn sản phẩm --- */
+#compareBar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(17, 24, 39, 0.95); /* Màu tối, mờ kính */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: none; /* Ẩn mặc định */
+    z-index: 1000;
+    align-items: center;
+    gap: 15px;
+    backdrop-filter: blur(8px);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translate(-50%, 100%); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.btn-compare-go {
+    background: var(--accent-color);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+.btn-compare-go:hover { background: #c2185b; }
+
+/* Checkbox tùy chỉnh trên thẻ sản phẩm */
+.select-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+}
+.cmp-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--accent-color);
+}
+
+/* --- Trang Xem So Sánh (Compare View) --- */
+.compare-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+.compare-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Grid 2 cột để so sánh */
+.compare-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .compare-layout { grid-template-columns: 1fr; }
+}
+
+/* Card so sánh chi tiết */
+.compare-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.compare-img-box {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.compare-img-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.compare-title-large {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    height: 3em; /* Giới hạn chiều cao tiêu đề */
+    overflow: hidden;
+}
+
+.compare-price-large {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    font-weight: 800;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* Bảng thông số kỹ thuật (nếu có) hoặc thông tin shop */
+.compare-specs {
+    width: 100%;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+    text-align: left;
+}
+.compare-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.9rem;
+}
+.spec-label { color: var(--text-muted); font-weight: 500; }
+.spec-value { font-weight: 600; color: var(--text-main); }
+
+/* Nút chọn lại sản phẩm (Placeholder) */
+.empty-slot {
+    height: 300px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
